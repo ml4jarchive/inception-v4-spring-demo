@@ -3,11 +3,11 @@ package org.ml4j.nn.demos.inceptionv4;
 import java.io.IOException;
 
 import org.ml4j.MatrixFactory;
-import org.ml4j.jblas.JBlasMatrixFactory2;
+import org.ml4j.jblas.JBlasRowMajorMatrixFactory;
 import org.ml4j.nn.activationfunctions.DefaultDifferentiableActivationFunctionFactory;
 import org.ml4j.nn.activationfunctions.DifferentiableActivationFunctionFactory;
 import org.ml4j.nn.axons.AxonsFactory;
-import org.ml4j.nn.axons.AxonsFactoryImpl;
+import org.ml4j.nn.axons.DefaultAxonsFactoryImpl;
 import org.ml4j.nn.components.axons.DirectedAxonsComponentFactory;
 import org.ml4j.nn.components.axons.DirectedAxonsComponentFactoryImpl;
 import org.ml4j.nn.components.builders.componentsgraph.Components3DGraphBuilderFactory;
@@ -24,12 +24,12 @@ public class InceptionV4Config {
 
 	@Bean
 	MatrixFactory matrixFactory() {
-		return new JBlasMatrixFactory2();
+		return new JBlasRowMajorMatrixFactory();
 	}
 
 	@Bean
 	AxonsFactory axonsFactory() {
-		return new AxonsFactoryImpl(matrixFactory());
+		return new DefaultAxonsFactoryImpl(matrixFactory());
 	}
 	
 	@Bean

@@ -16,9 +16,10 @@ import org.ml4j.nn.ForwardPropagation;
 import org.ml4j.nn.demos.inceptionv4.util.BufferedImageFeaturesMapper;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Factory;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Labels;
+import org.ml4j.nn.neurons.ImageNeuronsActivationImpl;
+import org.ml4j.nn.neurons.Neurons3D;
 import org.ml4j.nn.neurons.NeuronsActivation;
 import org.ml4j.nn.neurons.NeuronsActivationFeatureOrientation;
-import org.ml4j.nn.neurons.NeuronsActivationImpl;
 import org.ml4j.nn.supervised.FeedForwardNeuralNetworkContextImpl;
 import org.ml4j.nn.supervised.SupervisedFeedForwardNeuralNetwork;
 import org.slf4j.Logger;
@@ -84,7 +85,7 @@ public class InceptionV4Demo implements CommandLineRunner {
 		}
 	}
 	
-	private NeuronsActivation getImageActivations(List<BufferedImage> bufferedImages) throws IOException {
+	private NeuronsActivation getImageActivations(List<BufferedImage> bufferedImages)  {
 		List<float[]> imagesList = new ArrayList<>();
 		BufferedImageFeaturesMapper mapper = new BufferedImageFeaturesMapper(299 , 299);
 
@@ -96,8 +97,8 @@ public class InceptionV4Demo implements CommandLineRunner {
 		for (float[] image : imagesList) {
 			images[i++] = image;
 		}
-		return new NeuronsActivationImpl(matrixFactory.createMatrixFromRows(images).transpose(), 
-				NeuronsActivationFeatureOrientation.ROWS_SPAN_FEATURE_SET);
+		return new ImageNeuronsActivationImpl(matrixFactory.createMatrixFromRows(images).transpose(), new Neurons3D(299, 299, 3, false), 
+				NeuronsActivationFeatureOrientation.ROWS_SPAN_FEATURE_SET, false);
 	}
 	
 	
