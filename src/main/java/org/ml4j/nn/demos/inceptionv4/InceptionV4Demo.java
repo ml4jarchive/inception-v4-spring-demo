@@ -60,7 +60,7 @@ public class InceptionV4Demo implements CommandLineRunner {
 		// Define data set of images from a directory labelled with the path names
 		LabeledImagesDataSet<String> labeledImagesDataSet = 
 							new DirectoryImagesWithPathsDataSet(imagesDirectory, 
-									path -> true)
+									path -> true, 299, 299)
 								.getLabeledImagesDataSet((index, pathName) -> 
 									pathName.getParent().getFileName().toString());
 			
@@ -71,7 +71,7 @@ public class InceptionV4Demo implements CommandLineRunner {
 		NeuronsActivationDataSet neuronsActivationDataSet = batchedImageSupplierDataSet.toNeuronsActivationDataSet(matrixFactory, 
 				new ImageSupplierFeatureExtractor(299 * 299 * 3));
 		
-		
+
 		// Create the prediction context and the neural network
 		
 		// Create a runtime (non-training) context for the Inception V4 Network
