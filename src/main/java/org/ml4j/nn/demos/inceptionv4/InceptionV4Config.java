@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import org.ml4j.MatrixFactory;
 import org.ml4j.jblas.JBlasRowMajorMatrixFactory;
-import org.ml4j.nn.activationfunctions.DefaultDifferentiableActivationFunctionFactory;
-import org.ml4j.nn.activationfunctions.DifferentiableActivationFunctionFactory;
-import org.ml4j.nn.axons.AxonsFactory;
-import org.ml4j.nn.axons.DefaultAxonsFactoryImpl;
-import org.ml4j.nn.components.axons.DirectedAxonsComponentFactory;
-import org.ml4j.nn.components.axons.DirectedAxonsComponentFactoryImpl;
+import org.ml4j.nn.activationfunctions.factories.DifferentiableActivationFunctionFactory;
+import org.ml4j.nn.axons.factories.AxonsFactory;
 import org.ml4j.nn.components.builders.componentsgraph.Components3DGraphBuilderFactory;
 import org.ml4j.nn.components.builders.componentsgraph.DefaultComponents3DGraphBuilderFactory;
+import org.ml4j.nn.components.factories.DirectedComponentFactory;
+import org.ml4j.nn.factories.DefaultAxonsFactoryImpl;
+import org.ml4j.nn.factories.DefaultDifferentiableActivationFunctionFactory;
+import org.ml4j.nn.factories.DefaultDirectedComponentFactoryImpl;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Factory;
 import org.ml4j.nn.models.inceptionv4.impl.DefaultInceptionV4Factory;
 import org.ml4j.nn.supervised.DefaultSupervisedFeedForwardNeuralNetworkFactory;
@@ -33,8 +33,8 @@ public class InceptionV4Config {
 	}
 	
 	@Bean
-	DirectedAxonsComponentFactory directedAxonsComponentFactory() {
-		return new DirectedAxonsComponentFactoryImpl(matrixFactory(), axonsFactory());
+	DirectedComponentFactory directedAxonsComponentFactory() {
+		return new DefaultDirectedComponentFactoryImpl(matrixFactory(), axonsFactory());
 	}
 
 	@Bean

@@ -12,6 +12,7 @@ import org.ml4j.images.Image;
 import org.ml4j.nn.FeedForwardNeuralNetworkContext;
 import org.ml4j.nn.ForwardPropagation;
 import org.ml4j.nn.datasets.BatchedDataSet;
+import org.ml4j.nn.datasets.FeatureExtractionErrorMode;
 import org.ml4j.nn.datasets.featureextraction.ImageSupplierFeatureExtractor;
 import org.ml4j.nn.datasets.images.DirectoryImagesWithPathsDataSet;
 import org.ml4j.nn.datasets.images.LabeledImagesDataSet;
@@ -68,10 +69,9 @@ public class InceptionV4Demo implements CommandLineRunner {
 		BatchedDataSet<Supplier<Image>> batchedImageSupplierDataSet = labeledImagesDataSet.getDataSet().toBatchedDataSet(2);
 		
 		// Map to a data set of NeuronsActivation instances, one for each batch
-		NeuronsActivationDataSet neuronsActivationDataSet = batchedImageSupplierDataSet.toNeuronsActivationDataSet(matrixFactory, 
-				new ImageSupplierFeatureExtractor(299 * 299 * 3));
+		NeuronsActivationDataSet neuronsActivationDataSet = batchedImageSupplierDataSet
+				.toFloatArrayBatchedDataSet(new ImageSupplierFeatureExtractor(299 * 299 * 3), FeatureExtractionErrorMode.RAISE_EXCEPTION).toNeuronsActivationDataSet(matrixFactory);
 		
-
 		// Create the prediction context and the neural network
 		
 		// Create a runtime (non-training) context for the Inception V4 Network
@@ -79,7 +79,7 @@ public class InceptionV4Demo implements CommandLineRunner {
 		
 		// Create the Inception V4 Network, configuring the prediction context
 		SupervisedFeedForwardNeuralNetwork inceptionV4Network = inceptionV4Factory.createInceptionV4(predictionContext);
-	
+			
 		// Make the predictions
 		
 		Stream<ForwardPropagation> forwardPropagations = inceptionV4Network
