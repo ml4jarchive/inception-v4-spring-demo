@@ -49,7 +49,7 @@ public class InceptionV4Config {
 
 	@Bean
 	SupervisedFeedForwardNeuralNetworkFactory supervisedFeedForwardNeuralNetworkFactory() {
-		return new DefaultSupervisedFeedForwardNeuralNetworkFactory();
+		return new DefaultSupervisedFeedForwardNeuralNetworkFactory(directedAxonsComponentFactory());
 	}
 	
 	@Bean
