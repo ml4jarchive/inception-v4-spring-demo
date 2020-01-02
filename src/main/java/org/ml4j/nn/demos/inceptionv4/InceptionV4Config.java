@@ -9,9 +9,9 @@ import org.ml4j.nn.axons.factories.AxonsFactory;
 import org.ml4j.nn.components.builders.componentsgraph.Components3DGraphBuilderFactory;
 import org.ml4j.nn.components.builders.componentsgraph.DefaultComponents3DGraphBuilderFactory;
 import org.ml4j.nn.components.factories.DirectedComponentFactory;
-import org.ml4j.nn.factories.DefaultAxonsFactoryImpl;
-import org.ml4j.nn.factories.DefaultDifferentiableActivationFunctionFactory;
 import org.ml4j.nn.factories.DefaultDirectedComponentFactoryImpl;
+import org.ml4j.nn.factories.PrototypeAxonsFactoryImpl;
+import org.ml4j.nn.factories.PrototypeDifferentiableActivationFunctionFactory;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Factory;
 import org.ml4j.nn.models.inceptionv4.impl.DefaultInceptionV4Factory;
 import org.ml4j.nn.supervised.DefaultSupervisedFeedForwardNeuralNetworkFactory;
@@ -29,7 +29,7 @@ public class InceptionV4Config {
 
 	@Bean
 	AxonsFactory axonsFactory() {
-		return new DefaultAxonsFactoryImpl(matrixFactory());
+		return new PrototypeAxonsFactoryImpl(matrixFactory());
 	}
 	
 	@Bean
@@ -44,7 +44,7 @@ public class InceptionV4Config {
 
 	@Bean
 	DifferentiableActivationFunctionFactory activationFunctionFactory() {
-		return new DefaultDifferentiableActivationFunctionFactory();
+		return new PrototypeDifferentiableActivationFunctionFactory();
 	}
 
 	@Bean
