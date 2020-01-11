@@ -55,7 +55,7 @@ public class InceptionV4Config {
 	
 	@Bean
 	InceptionV4Factory inceptionV4Factory() throws IOException {
-		return new DefaultInceptionV4Factory(components3DGraphBuilderFactory(), activationFunctionFactory(),
+		return new DefaultInceptionV4Factory(components3DGraphBuilderFactory(), matrixFactory(), activationFunctionFactory(),
 				supervisedFeedForwardNeuralNetworkFactory(), InceptionV4Demo.class.getClassLoader());
 	}
 }
