@@ -35,7 +35,7 @@ public class InceptionV4Config {
 	
 	@Bean
 	DirectedComponentFactory directedAxonsComponentFactory() {
-		return new DefaultDirectedComponentFactoryImpl(matrixFactory(), axonsFactory());
+		return new DefaultDirectedComponentFactoryImpl(matrixFactory(), axonsFactory(), activationFunctionFactory());
 	}
 
 	@Bean
@@ -55,7 +55,7 @@ public class InceptionV4Config {
 	
 	@Bean
 	InceptionV4Factory inceptionV4Factory() throws IOException {
-		return new DefaultInceptionV4Factory(components3DGraphBuilderFactory(), matrixFactory(), activationFunctionFactory(),
+		return new DefaultInceptionV4Factory(components3DGraphBuilderFactory(), matrixFactory(), 
 				supervisedFeedForwardNeuralNetworkFactory(), InceptionV4Demo.class.getClassLoader());
 	}
 }
