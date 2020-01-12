@@ -11,6 +11,7 @@ import org.ml4j.MatrixFactory;
 import org.ml4j.images.Image;
 import org.ml4j.nn.FeedForwardNeuralNetworkContext;
 import org.ml4j.nn.ForwardPropagation;
+import org.ml4j.nn.components.onetoone.DefaultChainableDirectedComponentAdapter;
 import org.ml4j.nn.datasets.BatchedDataSet;
 import org.ml4j.nn.datasets.FeatureExtractionErrorMode;
 import org.ml4j.nn.datasets.featureextraction.ImageSupplierFeatureExtractor;
@@ -93,6 +94,9 @@ public class InceptionV4Demo implements CommandLineRunner {
 	
 		// Output the predictions for each batch
 		forwardPropagations.forEach(fp -> outputBatchPredictions(fp.getOutput(), inceptionV4ClassificationNames));
+		
+		
+		DefaultChainableDirectedComponentAdapter.printTimes();
 		
 		
 	}
