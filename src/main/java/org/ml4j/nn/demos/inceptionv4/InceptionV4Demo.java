@@ -1,7 +1,5 @@
 package org.ml4j.nn.demos.inceptionv4;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.function.Supplier;
 import java.util.logging.LogManager;
 import java.util.stream.Stream;
@@ -14,8 +12,7 @@ import org.ml4j.nn.ForwardPropagation;
 import org.ml4j.nn.datasets.BatchedDataSet;
 import org.ml4j.nn.datasets.FeatureExtractionErrorMode;
 import org.ml4j.nn.datasets.featureextraction.ImageSupplierFeatureExtractor;
-import org.ml4j.nn.datasets.images.DirectoryImagesWithPathsDataSet;
-import org.ml4j.nn.datasets.images.LabeledImagesDataSet;
+import org.ml4j.nn.datasets.images.ImagesDataSet;
 import org.ml4j.nn.datasets.neuronsactivation.NeuronsActivationDataSet;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Factory;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Labels;
@@ -39,6 +36,9 @@ public class InceptionV4Demo implements CommandLineRunner {
 
 	@Autowired
 	private InceptionV4Factory inceptionV4Factory;
+	
+	@Autowired
+	private ImagesDataSet imagesDataSet;
 
 	public static void main(String[] args) throws Exception {
 
@@ -53,24 +53,16 @@ public class InceptionV4Demo implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 	
-		// Create the data set
-		
-		// Define images Directory
-		Path imagesDirectory = new File(InceptionV4Demo.class.getClassLoader().getResource("test_images").getFile()).toPath();
-		
-		// Define data set of images from a directory labelled with the path names
-		LabeledImagesDataSet<String> labeledImagesDataSet = 
-							new DirectoryImagesWithPathsDataSet(imagesDirectory, 
-									path -> true, 299, 299)
-								.getLabeledImagesDataSet((index, pathName) -> 
-									pathName.getParent().getFileName().toString());
-			
-		// Map to a data set of image batches with more than 2 in each batch
-		BatchedDataSet<Supplier<Image>> batchedImageSupplierDataSet = labeledImagesDataSet.getDataSet().toBatchedDataSet(2);
+		// Set batch size according to memory constraints
+		int batchSize = 2;
+	
+		// Map to a data set of image batches with no more than batchSize in each batch
+		BatchedDataSet<Supplier<Image>> batchedImageSupplierDataSet = imagesDataSet.toBatchedDataSet(batchSize);
 		
 		// Map to a data set of NeuronsActivation instances, one for each batch
 		NeuronsActivationDataSet neuronsActivationDataSet = batchedImageSupplierDataSet
-				.toFloatArrayBatchedDataSet(new ImageSupplierFeatureExtractor(299 * 299 * 3), FeatureExtractionErrorMode.RAISE_EXCEPTION).toNeuronsActivationDataSet(matrixFactory);
+				.toFloatArrayBatchedDataSet(new ImageSupplierFeatureExtractor(299 * 299 * 3), 
+						FeatureExtractionErrorMode.RAISE_EXCEPTION).toNeuronsActivationDataSet(matrixFactory);
 		
 		// Create the prediction context and the neural network
 		
@@ -81,12 +73,10 @@ public class InceptionV4Demo implements CommandLineRunner {
 		SupervisedFeedForwardNeuralNetwork inceptionV4Network = inceptionV4Factory.createInceptionV4(predictionContext);
 			
 		// Make the predictions
-		
 		Stream<ForwardPropagation> forwardPropagations = inceptionV4Network
 				.forwardPropagate(neuronsActivationDataSet.stream(), predictionContext);
 		
 		// Output the predictions
-		
 		
 		// Obtain the labels for the InceptionV4 Network
 		InceptionV4Labels inceptionV4ClassificationNames = inceptionV4Factory.createInceptionV4Labels();
