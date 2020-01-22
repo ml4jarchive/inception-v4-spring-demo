@@ -40,7 +40,7 @@ public class InceptionV4Config {
 
 	@Bean
 	SessionFactory<DefaultChainableDirectedComponent<?, ?>> sessionFactory() {
-		return new DefaultSessionFactory<>(directedComponentFactory());
+		return new DefaultSessionFactory<>(matrixFactory(), directedComponentFactory());
 	}
 
 	@Bean
