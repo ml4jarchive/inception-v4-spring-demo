@@ -19,8 +19,8 @@ import org.ml4j.nn.datasets.images.LabeledImagesDataSet;
 import org.ml4j.nn.datasets.neuronsactivation.NeuronsActivationDataSet;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Factory;
 import org.ml4j.nn.models.inceptionv4.InceptionV4Labels;
+import org.ml4j.nn.neurons.ImageNeuronsActivationFormat;
 import org.ml4j.nn.neurons.NeuronsActivation;
-import org.ml4j.nn.neurons.NeuronsActivationFeatureOrientation;
 import org.ml4j.nn.supervised.FeedForwardNeuralNetworkContextImpl;
 import org.ml4j.nn.supervised.SupervisedFeedForwardNeuralNetwork;
 import org.slf4j.Logger;
@@ -72,7 +72,7 @@ public class InceptionV4Demo implements CommandLineRunner {
 		// Map to a data set of NeuronsActivation instances, one for each batch
 		NeuronsActivationDataSet neuronsActivationDataSet = batchedImageSupplierDataSet
 				.toFloatArrayBatchedDataSet(new ImageSupplierFeatureExtractor(299 * 299 * 3), FeatureExtractionErrorMode.RAISE_EXCEPTION).toNeuronsActivationDataSet(matrixFactory,
-						NeuronsActivationFeatureOrientation.ROWS_SPAN_FEATURE_SET);
+						ImageNeuronsActivationFormat.ML4J_DEFAULT_IMAGE_FORMAT);
 		
 		// Create the prediction context and the neural network
 		
