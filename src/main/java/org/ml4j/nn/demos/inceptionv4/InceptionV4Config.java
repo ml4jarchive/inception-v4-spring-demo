@@ -39,7 +39,7 @@ public class InceptionV4Config {
 
 	@Bean
 	DefaultSessionFactory sessionFactory() {
-		return new DefaultSessionFactoryImpl(matrixFactory(), directedComponentFactory(), null, supervisedFeedForwardNeuralNetworkFactory());
+		return new DefaultSessionFactoryImpl(matrixFactory(), directedComponentFactory(), null, supervisedFeedForwardNeuralNetworkFactory(), null);
 	}
 
 	@Bean
