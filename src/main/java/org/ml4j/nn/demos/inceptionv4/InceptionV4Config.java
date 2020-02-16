@@ -41,7 +41,7 @@ public class InceptionV4Config {
 	DefaultSessionFactory sessionFactory() {
 		return new DefaultSessionFactoryImpl(matrixFactory(), 
 				directedComponentFactory(), null,  // No DirectedLayerFactory needed for this demo.
-				supervisedFeedForwardNeuralNetworkFactory(), null); // No LayeredSupervisedFeedForwardNeuralNetworkFactory needed
+				supervisedFeedForwardNeuralNetworkFactory());
 	}
 
 	@Bean
