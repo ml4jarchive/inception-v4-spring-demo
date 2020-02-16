@@ -39,7 +39,9 @@ public class InceptionV4Config {
 
 	@Bean
 	DefaultSessionFactory sessionFactory() {
-		return new DefaultSessionFactoryImpl(matrixFactory(), directedComponentFactory(), null, supervisedFeedForwardNeuralNetworkFactory(), null);
+		return new DefaultSessionFactoryImpl(matrixFactory(), 
+				directedComponentFactory(), null,  // No DirectedLayerFactory needed for this demo.
+				supervisedFeedForwardNeuralNetworkFactory(), null); // No LayeredSupervisedFeedForwardNeuralNetworkFactory needed
 	}
 
 	@Bean
@@ -55,6 +57,6 @@ public class InceptionV4Config {
 	@Bean
 	InceptionV4Factory inceptionV4Factory() throws IOException {
 		return new DefaultInceptionV4Factory(sessionFactory(), matrixFactory(), 
-				supervisedFeedForwardNeuralNetworkFactory(), InceptionV4Demo.class.getClassLoader());
+				InceptionV4Demo.class.getClassLoader());
 	}
 }
