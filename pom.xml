@@ -23,6 +23,14 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>ml4j-releases</id>
+			<url>https://raw.githubusercontent.com/ml4j/mvn-repository/master/releases
+			</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 	<properties>
 		<java.version>9</java.version>
