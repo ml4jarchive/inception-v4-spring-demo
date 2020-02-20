@@ -11,6 +11,7 @@ import org.ml4j.MatrixFactory;
 import org.ml4j.images.Image;
 import org.ml4j.nn.FeedForwardNeuralNetworkContext;
 import org.ml4j.nn.ForwardPropagation;
+import org.ml4j.nn.components.DirectedComponentsContext;
 import org.ml4j.nn.datasets.BatchedDataSet;
 import org.ml4j.nn.datasets.FeatureExtractionErrorMode;
 import org.ml4j.nn.datasets.featureextraction.ImageSupplierFeatureExtractor;
@@ -37,6 +38,9 @@ public class InceptionV4Demo implements CommandLineRunner {
 
 	@Autowired
 	private MatrixFactory matrixFactory;
+	
+	@Autowired
+	private DirectedComponentsContext directedComponentsContext;
 
 	@Autowired
 	private InceptionV4Factory inceptionV4Factory;
@@ -77,7 +81,8 @@ public class InceptionV4Demo implements CommandLineRunner {
 		// Create the prediction context and the neural network
 		
 		// Create a runtime (non-training) context for the Inception V4 Network
-		FeedForwardNeuralNetworkContext predictionContext = new FeedForwardNeuralNetworkContextImpl(matrixFactory, false);
+		FeedForwardNeuralNetworkContext predictionContext = new FeedForwardNeuralNetworkContextImpl(
+				directedComponentsContext, false);
 		
 		// Create the Inception V4 Network, configuring the prediction context
 		SupervisedFeedForwardNeuralNetwork inceptionV4Network = inceptionV4Factory.createInceptionV4(predictionContext);

@@ -6,6 +6,8 @@ import org.ml4j.MatrixFactory;
 import org.ml4j.jblas.JBlasRowMajorMatrixFactory;
 import org.ml4j.nn.activationfunctions.factories.DifferentiableActivationFunctionFactory;
 import org.ml4j.nn.axons.factories.AxonsFactory;
+import org.ml4j.nn.components.DirectedComponentsContext;
+import org.ml4j.nn.components.DirectedComponentsContextImpl;
 import org.ml4j.nn.components.factories.DirectedComponentFactory;
 import org.ml4j.nn.factories.DefaultAxonsFactoryImpl;
 import org.ml4j.nn.factories.DefaultDifferentiableActivationFunctionFactory;
@@ -34,14 +36,20 @@ public class InceptionV4Config {
 	
 	@Bean
 	DirectedComponentFactory directedComponentFactory() {
-		return new DefaultDirectedComponentFactoryImpl(matrixFactory(), axonsFactory(), activationFunctionFactory());
+		return new DefaultDirectedComponentFactoryImpl(matrixFactory(), axonsFactory(), activationFunctionFactory(), 
+				directedComponentsContext());
+	}
+	
+	@Bean
+	DirectedComponentsContext directedComponentsContext() {
+		return new DirectedComponentsContextImpl(matrixFactory(), false);
 	}
 
 	@Bean
 	DefaultSessionFactory sessionFactory() {
 		return new DefaultSessionFactoryImpl(matrixFactory(), 
 				directedComponentFactory(), null,  // No DirectedLayerFactory needed for this demo.
-				supervisedFeedForwardNeuralNetworkFactory());
+				supervisedFeedForwardNeuralNetworkFactory(), directedComponentsContext());
 	}
 
 	@Bean
