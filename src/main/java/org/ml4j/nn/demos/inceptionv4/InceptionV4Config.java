@@ -1,6 +1,8 @@
 package org.ml4j.nn.demos.inceptionv4;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import org.ml4j.MatrixFactory;
 import org.ml4j.jblas.JBlasRowMajorMatrixFactory;
@@ -9,6 +11,9 @@ import org.ml4j.nn.axons.factories.AxonsFactory;
 import org.ml4j.nn.components.DirectedComponentsContext;
 import org.ml4j.nn.components.DirectedComponentsContextImpl;
 import org.ml4j.nn.components.factories.DirectedComponentFactory;
+import org.ml4j.nn.datasets.images.DirectoryImagesWithPathsDataSet;
+import org.ml4j.nn.datasets.images.ImagesDataSet;
+import org.ml4j.nn.datasets.images.LabeledImagesDataSet;
 import org.ml4j.nn.factories.DefaultAxonsFactoryImpl;
 import org.ml4j.nn.factories.DefaultDifferentiableActivationFunctionFactory;
 import org.ml4j.nn.factories.DefaultDirectedComponentFactoryImpl;
@@ -66,5 +71,22 @@ public class InceptionV4Config {
 	InceptionV4Factory inceptionV4Factory() throws IOException {
 		return new DefaultInceptionV4Factory(sessionFactory(), matrixFactory(), 
 				InceptionV4Demo.class.getClassLoader());
+	}
+	
+	@Bean("filenameLabeledImagesDataSet")
+	LabeledImagesDataSet<String> filenameLabeledImagesDataSet() {
+
+		// Create the data set
+		// Define images Directory
+		Path imagesDirectory = new File(InceptionV4Demo.class.getClassLoader().getResource("test_images").getFile())
+				.toPath();
+
+		return new DirectoryImagesWithPathsDataSet(imagesDirectory, path -> true, 299, 299)
+				.getLabeledImagesDataSet((index, pathName) -> pathName.getParent().getFileName().toString());
+	}
+	
+	@Bean("imagesDataSet")
+	ImagesDataSet imagesDataSet() {
+		return filenameLabeledImagesDataSet().getDataSet();
 	}
 }
